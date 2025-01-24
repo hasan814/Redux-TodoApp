@@ -1,6 +1,9 @@
+import { addTodo, updateSearchTerm } from "../../redux/action";
 import { useDispatch } from "react-redux";
 import { useState } from "react";
-import { BsPlus } from "react-icons/bs";
+
+import InputHeader from "../modules/InputHeader";
+import FilterSection from "../modules/FilterSection";
 
 const TodoHomePage = () => {
   // =============== Dispatch ===============
@@ -8,13 +11,20 @@ const TodoHomePage = () => {
 
   // =============== State ===============
   const [newTodoText, setNewTodoText] = useState("");
+  const [searchTerm, setSearchTerm] = useState("");
 
-  // =============== Handle Function ===============
+  // =============== Add Function ===============
   const addToDoHandler = () => {
     if (newTodoText.trim() !== "") {
-      dispatch(newTodoText.trim());
+      dispatch(addTodo(newTodoText.trim()));
       setNewTodoText("");
     }
+  };
+
+  // =============== Search Function ===============
+  const searchHandler = (value) => {
+    setSearchTerm(value);
+    dispatch(updateSearchTerm(value));
   };
 
   // =============== Rendering ===============
@@ -23,23 +33,16 @@ const TodoHomePage = () => {
       <h2 className="uppercase mt-3 mb-6 text-2xl font-bold text-center">
         personal todo apper
       </h2>
-      <div className="flex items-center mb-4">
-        <input
-          type="text"
-          id="addTodoInput"
-          name="addTodoInput"
-          value={newTodoText}
-          placeholder="Add Todo"
-          onChange={(event) => setNewTodoText(event.target.value)}
-          className="flex-grow border-gray-300 p-2 border-b-2 bg-white focus:outline-none focus:border-blue-500"
-        />
-        <button
-          onClick={addToDoHandler}
-          className="ml-4 p-2 bg-blue-500 text-white rounded hover:bg-blue-600"
-        >
-          <BsPlus />
-        </button>
-      </div>
+      <InputHeader
+        newTodoText={newTodoText}
+        setNewTodoText={setNewTodoText}
+        addToDoHandler={addToDoHandler}
+      />
+      <FilterSection
+        searchTerm={searchTerm}
+        setSearchTerm={setSearchTerm}
+        searchHandler={searchHandler}
+      />
     </div>
   );
 };
