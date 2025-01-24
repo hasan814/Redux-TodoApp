@@ -1,5 +1,6 @@
 import { useSelector } from "react-redux";
 import { v4 } from "uuid";
+import TodoItems from "./TodoItems";
 
 const TodoList = () => {
   // =============== Redux ===============
@@ -24,7 +25,9 @@ const TodoList = () => {
     <ul>
       <li className="my-2 text-sm italic">All Your Notes Here...</li>
       {!!filteredTodos.length &&
-        filteredTodos.map((todo) => <li key={v4()}>{todo.text}</li>)}
+        filteredTodos.map((todo, index) => (
+          <TodoItems key={index} todo={todo} index={index} />
+        ))}
     </ul>
   );
 };
