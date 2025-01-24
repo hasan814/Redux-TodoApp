@@ -1,5 +1,7 @@
 import { BsSearch } from "react-icons/bs";
 
+import PropTypes from "prop-types";
+
 const FilterSection = ({ searchHandler, searchTerm }) => {
   return (
     <div className="flex items-center mb-4">
@@ -19,4 +21,8 @@ const FilterSection = ({ searchHandler, searchTerm }) => {
   );
 };
 
+FilterSection.propTypes = {
+  searchHandler: PropTypes.func.isRequired,
+  searchTerm: PropTypes.string.isRequired,
+};
 export default FilterSection;

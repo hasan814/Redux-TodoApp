@@ -1,21 +1,26 @@
 import { useDispatch } from "react-redux";
 
+import PropTypes from "prop-types";
+
 import {
+  FaTrash,
   FaCheck,
   FaTimes,
-  FaToggleOff,
   FaToggleOn,
-  FaTrash,
+  FaToggleOff,
 } from "react-icons/fa";
 
 import {
+  toggleTodo,
+  removeTodo,
   markComplete,
   markIncomplete,
-  removeTodo,
-  toggleTodo,
 } from "../../redux/action";
 
 const TodoItems = ({ todo, index }) => {
+  // ============== Destructures ============
+  const { completed, text } = todo;
+
   // ============== Redux ============
   const dispatch = useDispatch();
 
@@ -25,11 +30,9 @@ const TodoItems = ({ todo, index }) => {
       <div className="">
         <span className="mr-4 text-gray-500">{index + 1}</span>
         <span
-          className={`mr-4 ${
-            todo.completed ? "line-through text-red-500" : ""
-          }`}
+          className={`mr-4 ${completed ? "line-through text-red-500" : ""}`}
         >
-          {todo.text}
+          {text}
         </span>
       </div>
       <div className="space-x-3 ml-8">
@@ -37,7 +40,7 @@ const TodoItems = ({ todo, index }) => {
           onClick={() => dispatch(toggleTodo(index))}
           className="mr-2 text-sm bg-blue-500 text-white sm:px-2 py-1 px-1 rounded"
         >
-          {todo.completed ? <FaToggleOff /> : <FaToggleOn />}
+          {completed ? <FaToggleOff /> : <FaToggleOn />}
         </button>
         <button
           onClick={() => dispatch(removeTodo(index))}
@@ -45,7 +48,7 @@ const TodoItems = ({ todo, index }) => {
         >
           <FaTrash />
         </button>
-        {!todo.completed && (
+        {!completed && (
           <button
             onClick={() => dispatch(markComplete(index))}
             className="mr-2 text-sm bg-blue-500 text-white sm:px-2 py-1 px-1 rounded"
@@ -53,7 +56,7 @@ const TodoItems = ({ todo, index }) => {
             <FaCheck />
           </button>
         )}
-        {todo.completed && (
+        {completed && (
           <button
             onClick={() => dispatch(markIncomplete(index))}
             className="mr-2 text-sm bg-yellow-500 text-white sm:px-2 py-1 px-1 rounded"
@@ -64,6 +67,14 @@ const TodoItems = ({ todo, index }) => {
       </div>
     </li>
   );
+};
+
+TodoItems.propTypes = {
+  todo: PropTypes.shape({
+    text: PropTypes.string.isRequired,
+    completed: PropTypes.bool.isRequired,
+  }).isRequired,
+  index: PropTypes.number.isRequired,
 };
 
 export default TodoItems;

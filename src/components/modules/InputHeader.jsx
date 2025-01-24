@@ -1,5 +1,7 @@
 import { BsPlus } from "react-icons/bs";
 
+import PropTypes from "prop-types";
+
 const InputHeader = ({ newTodoText, setNewTodoText, addToDoHandler }) => {
   return (
     <div className="flex items-center mb-4">
@@ -20,6 +22,12 @@ const InputHeader = ({ newTodoText, setNewTodoText, addToDoHandler }) => {
       </button>
     </div>
   );
+};
+
+InputHeader.propTypes = {
+  newTodoText: PropTypes.string.isRequired,
+  setNewTodoText: PropTypes.func.isRequired,
+  addToDoHandler: PropTypes.func.isRequired,
 };
 
 export default InputHeader;
