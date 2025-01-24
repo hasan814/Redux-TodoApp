@@ -5,7 +5,7 @@ const FilterSection = ({ searchHandler, searchTerm }) => {
     <div className="flex items-center mb-4">
       <input
         type="text"
-        id="addTodoInput"
+        id="addSearchInput"
         value={searchTerm}
         name="addToDoInput"
         placeholder="Search"

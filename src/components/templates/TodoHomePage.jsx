@@ -2,9 +2,10 @@ import { addTodo, updateSearchTerm } from "../../redux/action";
 import { useDispatch } from "react-redux";
 import { useState } from "react";
 
-import InputHeader from "../modules/InputHeader";
 import FilterSection from "../modules/FilterSection";
+import InputHeader from "../modules/InputHeader";
 import FilterBtn from "../modules/FilterBtn";
+import TodoList from "../modules/TodoList";
 
 const TodoHomePage = () => {
   // =============== Dispatch ===============
@@ -47,6 +48,7 @@ const TodoHomePage = () => {
           searchHandler={searchHandler}
         />
       </div>
+      <TodoList />
     </div>
   );
 };

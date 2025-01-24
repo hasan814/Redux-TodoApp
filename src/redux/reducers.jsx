@@ -11,18 +11,15 @@ import {
 
 const initialState = {
   todos: [],
-  filter: "All",
+  filter: "ALL",
   searchTerm: "",
 };
 
 const todoReducer = (state = initialState, action) => {
-  switch (action.payload) {
+  switch (action.type) {
     case ADD_TODO:
       return {
-        todos: [
-          ...state.todos,
-          { text: action.payload.text, completed: false },
-        ],
+        todos: [...state.todos, { text: action.payload, completed: false }],
         filter: state.filter,
         searchTerm: state.searchTerm,
       };
