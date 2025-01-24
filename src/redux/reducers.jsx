@@ -1,3 +1,5 @@
+import Cookies from "js-cookie";
+
 import {
   ADD_TODO,
   REMOVE_TODO,
@@ -9,74 +11,87 @@ import {
   MARK_ALL_COMPLETED,
 } from "./actionTypes";
 
+// ============ Initialize State ===============
 const initialState = {
-  todos: [],
+  todos: Cookies.get("todos") ? JSON.parse(Cookies.get("todos")) : [],
   filter: "ALL",
   searchTerm: "",
 };
 
+// =========== Save Todos to Cookies ==============
+const saveTodosToCookies = (todos) => {
+  Cookies.set("todos", JSON.stringify(todos), { expires: 7, path: "/" });
+};
+
+// =========== Reducer ==============
 const todoReducer = (state = initialState, action) => {
+  let updatedState;
+
   switch (action.type) {
     case ADD_TODO:
-      return {
+      updatedState = {
+        ...state,
         todos: [...state.todos, { text: action.payload, completed: false }],
-        filter: state.filter,
-        searchTerm: state.searchTerm,
       };
+      break;
     case TOGGLE_TODO:
-      return {
+      updatedState = {
+        ...state,
         todos: state.todos.map((todo, index) =>
           index === action.payload.id
             ? { ...todo, completed: !todo.completed }
             : todo
         ),
-        filter: state.filter,
-        searchTerm: state.searchTerm,
       };
+      break;
     case REMOVE_TODO:
-      return {
-        todos: state.todos.filter((todo, index) => index !== action.payload.id),
-        filter: state.filter,
-        searchTerm: state.searchTerm,
+      updatedState = {
+        ...state,
+        todos: state.todos.filter((_, index) => index !== action.payload.id),
       };
+      break;
     case MARK_COMPLETED:
-      return {
+      updatedState = {
+        ...state,
         todos: state.todos.map((todo, index) =>
           index === action.payload.id ? { ...todo, completed: true } : todo
         ),
-        filter: state.filter,
-        searchTerm: state.searchTerm,
       };
+      break;
     case MARK_INCOMPLETED:
-      return {
+      updatedState = {
+        ...state,
         todos: state.todos.map((todo, index) =>
           index === action.payload.id ? { ...todo, completed: false } : todo
         ),
-        filter: state.filter,
-        searchTerm: state.searchTerm,
       };
+      break;
     case FILTER_TODOS:
-      return {
-        todos: state.todos,
-        searchTerm: state.searchTerm,
+      updatedState = {
+        ...state,
         filter: action.payload.filter,
       };
+      break;
     case UPDATE_SEARCH_TERM:
-      return {
-        todos: state.todos,
-        filter: state.filter,
+      updatedState = {
+        ...state,
         searchTerm: action.payload.searchTerm,
       };
+      break;
     case MARK_ALL_COMPLETED:
-      return {
+      updatedState = {
+        ...state,
         todos: state.todos.map((todo) => ({ ...todo, completed: true })),
-        filter: state.filter,
-        searchTerm: state.searchTerm,
       };
-
+      break;
     default:
       return state;
   }
+
+  // ========== Save updated todos to cookies ===========
+  saveTodosToCookies(updatedState.todos);
+
+  return updatedState;
 };
 
 export default todoReducer;

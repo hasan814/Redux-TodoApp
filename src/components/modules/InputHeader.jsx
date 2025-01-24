@@ -22,6 +22,4 @@ const InputHeader = ({ newTodoText, setNewTodoText, addToDoHandler }) => {
   );
 };
 
-InputHeader.propTy;
-
 export default InputHeader;
