@@ -4,6 +4,7 @@ import { useState } from "react";
 
 import InputHeader from "../modules/InputHeader";
 import FilterSection from "../modules/FilterSection";
+import FilterBtn from "../modules/FilterBtn";
 
 const TodoHomePage = () => {
   // =============== Dispatch ===============
@@ -38,11 +39,14 @@ const TodoHomePage = () => {
         setNewTodoText={setNewTodoText}
         addToDoHandler={addToDoHandler}
       />
-      <FilterSection
-        searchTerm={searchTerm}
-        setSearchTerm={setSearchTerm}
-        searchHandler={searchHandler}
-      />
+      <div className="flex items-center justify-between">
+        <FilterBtn />
+        <FilterSection
+          searchTerm={searchTerm}
+          setSearchTerm={setSearchTerm}
+          searchHandler={searchHandler}
+        />
+      </div>
     </div>
   );
 };
